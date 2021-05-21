@@ -1,0 +1,13 @@
+[
+  {
+    "category": "animals",
+    "images": [
+      "lion.jpg",
+      "cat.jpg",
+      "suricat.jpg",
+      "lama.jpg",
+      "fox.jpg",
+      "horse.jpg"
+    ]
+  }
+]
