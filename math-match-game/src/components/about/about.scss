@@ -1,0 +1,27 @@
+.about-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  .number {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    background-color: #2196F3;
+    border-radius: 50%;
+    box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.5);
+  }
+  .step-explanation {
+    display: flex;
+    background-color: #FFF;
+    height: 200px;
+    width: 360px;
+  }
+}

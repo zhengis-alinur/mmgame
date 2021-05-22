@@ -1,7 +1,6 @@
 import { BaseComponent } from '../base-component';
-import { Card } from '../card/card';
 import { CardsField } from '../cards-field/cards-field';
-import { delay } from '../shared/delay';
+import { Card } from '../card/card';
 
 const FLIP_DELAY = 1000;
 
@@ -15,7 +14,7 @@ export class Game extends BaseComponent {
   public cards: Card[] = [];
 
   constructor() {
-    super();
+    super('div', ['game']);
     this.cardsField = new CardsField();
     this.element.appendChild(this.cardsField.element);
   }

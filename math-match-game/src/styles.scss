@@ -13,6 +13,7 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: white;
+  overflow-y: hidden;
 }
 
 .container {
@@ -24,9 +25,10 @@ body {
   margin: 0 auto;
 }
 
-header {
-  width: 100%;
-  background-color: #2196F3;
-  height: 64px;
+.app {
+  width: 1200px;
+  height: 800px;
+  background-color: rgba(0, 0, 0, 0.05);
+  margin: 40px auto 0;
 }
 

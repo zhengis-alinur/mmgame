@@ -1,0 +1,34 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #2196F3;
+  height: 64px;
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: space-between;
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 150px;
+    text-transform: uppercase;
+  }
+  .icon {
+    height: 30px;
+    width: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+.logo {
+  height: 64px;
+  width: 64px;
+  background: url(../../../public/icons/logo.svg) center no-repeat;
+}

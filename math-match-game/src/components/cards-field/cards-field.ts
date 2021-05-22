@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import './cards-field.scss';
-import { BaseComponent } from '../base-component';
 import { Card } from '../card/card';
+import { BaseComponent } from '../base-component';
 
 const SHOW_TIME = 5;
 
