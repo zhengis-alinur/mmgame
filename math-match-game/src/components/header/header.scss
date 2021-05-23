@@ -1,9 +1,11 @@
 header {
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #2196F3;
   height: 64px;
+  padding: 0 30px;
+  background-color: #2196F3;
 }
 
 .nav-menu {
@@ -31,4 +33,13 @@ header {
   height: 64px;
   width: 64px;
   background: url(../../../public/icons/logo.svg) center no-repeat;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  .button {
+    height: 30px;
+  }
 }

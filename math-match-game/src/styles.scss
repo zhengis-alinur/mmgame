@@ -16,6 +16,14 @@ body {
   overflow-y: hidden;
 }
 
+.cover {
+  display: none;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, .5);
+}
+
 .container {
   display: flex;
   justify-content: space-between;

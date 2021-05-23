@@ -22,11 +22,14 @@ export class Header extends BaseComponent {
 
   public settingsBtn: NavItem = new NavItem('Settings', 'about.svg');
 
+  public registerBtn: HTMLElement = document.createElement('button');
+
   private right?: HTMLElement;
 
   constructor() {
     super('header', ['header']);
     this.createLeft();
+    this.createCenter();
     this.createRight();
   }
 
@@ -37,28 +40,27 @@ export class Header extends BaseComponent {
 
   createCenter() {
     this.center = createElem('div', 'nav-menu');
-    this.element.appendChild(this.center);
-
     this.aboutBtn.element.classList.add('about');
-    this.aboutBtn.isActive = false;
+    // this.aboutBtn.element.setAttribute('href', '#/about/');
 
     this.scoreBtn.element.classList.add('score');
+    // this.scoreBtn.element.setAttribute('href', '#/score/');
 
     this.settingsBtn.element.classList.add('settings');
-
-    // add EventListeners for navigation buttons
-    this.aboutBtn.element.addEventListener('click', );
-    this.aboutBtn.element.addEventListener('click', );
-    this.aboutBtn.element.addEventListener('click', );
+    // this.settingsBtn.element.setAttribute('href', '#/settings/');
 
     this.center.appendChild(this.aboutBtn.element);
     this.center.appendChild(this.scoreBtn.element);
     this.center.appendChild(this.settingsBtn.element);
+
+    this.element.appendChild(this.center);
   }
 
   createRight() {
-    this.right = createElem('div', 'rigth');
+    this.right = createElem('div', 'right');
+    this.registerBtn.innerHTML = 'Register new Player';
+    this.registerBtn.classList.add('button');
+    this.right.appendChild(this.registerBtn);
     this.element.appendChild(this.right);
   }
-
 }
