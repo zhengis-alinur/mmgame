@@ -6,6 +6,7 @@ import { Score } from './components/score/score';
 import { Settings } from './components/settings/settings';
 import { NavItem } from './components/header/nav-item';
 import { RegisterPopUp } from './components/registerPopUp/registerPopUp';
+import { IDB } from './database/IDB';
 
 // function, which gets two params 1st - tag name, 2nd - class name, and returns HTML element.
 function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
@@ -79,20 +80,30 @@ window.addEventListener('hashchange', () => {
 
 // create register popup menu
 const cover = createElem('div', 'cover');
-const registerPopup = new RegisterPopUp();
+const registerPopUp = new RegisterPopUp();
 document.body.appendChild(cover);
-document.body.appendChild(registerPopup.element);
+document.body.appendChild(registerPopUp.element);
 header.registerBtn.addEventListener('click', () => {
-  registerPopup.element.style.display = 'flex';
+  registerPopUp.element.style.display = 'flex';
   cover.style.display = 'block';
 });
 cover.addEventListener('click', () => {
-  registerPopup.element.style.display = 'none';
+  registerPopUp.element.style.display = 'none';
   cover.style.display = 'none';
 });
-registerPopup.cancelBtn.addEventListener('click', () => {
-  registerPopup.element.style.display = 'none';
+registerPopUp.cancelBtn.addEventListener('click', () => {
+  registerPopUp.element.style.display = 'none';
   cover.style.display = 'none';
+});
+
+// create IndexedDB
+const db = new IDB();
+registerPopUp.addUserBtn.addEventListener('click', () => {
+  const name = (<HTMLInputElement>document.getElementById('name-input')).value;
+  const surname = (<HTMLInputElement>document.getElementById('surname-input')).value;
+  const email = (<HTMLInputElement>document.getElementById('email-input')).value;
+  console.log(name, surname, email);
+  db.addUser(name, surname, email);
 });
 
 // const application = new App(app);
