@@ -7,6 +7,7 @@ export class IDB {
     this.request.onupgradeneeded = (event) => {
       this.db = this.request.result;
       const playersSheet = this.db.createObjectStore('players', { keyPath: 'email' });
+      const scoreSheet = this.db.createObjectStore('scores', { keyPath: 'email' });
     };
     this.request.onsuccess = (e) => {
       const db = this.request.result;
@@ -16,7 +17,7 @@ export class IDB {
     };
   }
 
-  addUser(name: string, surname: string, email: string) {
+  addPlayer(name: string, surname: string, email: string) {
     const player = {
       email: `${email}`,
       name: `${name}`,
@@ -25,5 +26,15 @@ export class IDB {
     const tx = this.request.result.transaction('players', 'readwrite');
     const playersSheet = tx.objectStore('players');
     playersSheet.add(player);
+  }
+
+  addRecord(email: string, time: number) {
+    const record = {
+      email: `${email}`,
+      time: `${time}`,
+    };
+    const tx = this.request.result.transaction('scores', 'readwrite');
+    const scoresSheet = tx.objectStore('scores');
+    scoresSheet.add(record);
   }
 }

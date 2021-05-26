@@ -24,7 +24,9 @@ export class Header extends BaseComponent {
 
   public registerBtn: HTMLElement = document.createElement('button');
 
-  private right?: HTMLElement;
+  public startBtn: HTMLElement = document.createElement('button');
+
+  public right: HTMLElement = createElem('div', 'right');
 
   constructor() {
     super('header', ['header']);
@@ -57,9 +59,10 @@ export class Header extends BaseComponent {
   }
 
   createRight() {
-    this.right = createElem('div', 'right');
     this.registerBtn.innerHTML = 'Register new Player';
+    this.startBtn.innerHTML = 'Start game';
     this.registerBtn.classList.add('button');
+    this.startBtn.classList.add('button');
     this.right.appendChild(this.registerBtn);
     this.element.appendChild(this.right);
   }

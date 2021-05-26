@@ -25,12 +25,16 @@ function changeAppContent(base: HTMLElement, innerElem: HTMLElement, button: Nav
 }
 
 // create app and pages. Append only aboutPage, because initially when we open web-site, we must be in aboutPage.
+let application: App;
 const app = createElem('div', 'app');
 const aboutPage = new About();
 const settingsPage = new Settings();
 const scorePage = new Score();
 app.appendChild(aboutPage.element);
 window.history.pushState({}, 'about', '#/about/');
+
+// create IndexedDB
+const db = new IDB();
 
 // create header
 const header = new Header();
@@ -95,19 +99,32 @@ registerPopUp.cancelBtn.addEventListener('click', () => {
   registerPopUp.element.style.display = 'none';
   cover.style.display = 'none';
 });
-
-// create IndexedDB
-const db = new IDB();
 registerPopUp.addUserBtn.addEventListener('click', () => {
+  // get values from form
   const name = (<HTMLInputElement>document.getElementById('name-input')).value;
   const surname = (<HTMLInputElement>document.getElementById('surname-input')).value;
   const email = (<HTMLInputElement>document.getElementById('email-input')).value;
-  console.log(name, surname, email);
-  db.addUser(name, surname, email);
+
+  // add Player into IndexedDB
+  db.addPlayer(name, surname, email);
+
+  // hide registerPopUp Menu
+  registerPopUp.element.style.display = 'none';
+  cover.style.display = 'none';
+
+  // add start button
+  header.right.innerHTML = '';
+  header.right.appendChild(header.startBtn);
 });
 
-// const application = new App(app);
-// application.start();
+// start game
+header.startBtn.addEventListener('click', () => {
+  application = new App(app);
+  application.start();
+
+  // add address into hash
+  window.history.pushState({}, 'game', '#/game/');
+});
 
 document.body.appendChild(header.element);
 document.body.appendChild(app);

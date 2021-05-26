@@ -13,6 +13,8 @@ export class Game extends BaseComponent {
 
   public cards: Card[] = [];
 
+  private pairCounter: number = 0;
+
   constructor() {
     super('div', ['game']);
     this.cardsField = new CardsField();
@@ -46,7 +48,19 @@ export class Game extends BaseComponent {
     this.cards.forEach((c) => {
       c.isActive = false;
     });
-    card.check(this.activeCard);
+    card.check(this.activeCard).then((value) => {
+      if (value) {
+        this.pairCounter++;
+      }
+    });
+    console.log(this.pairCounter);
+    if (this.pairCounter === this.cards.length / 2 - 1) {
+      const event = document.createEvent('Event');
+      const app = document.querySelector('.app');
+      if (app) {
+        app.innerHTML = 'Congratulations! You have found all pairs!';
+      }
+    }
     setTimeout(() => {
       this.cards.forEach((c) => {
         c.isActive = true;

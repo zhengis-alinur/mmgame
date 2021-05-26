@@ -15,15 +15,23 @@ export class Card extends BaseComponent {
   }
 
   check(card: Card) {
-    setTimeout(() => {
-      if (this.image !== card.image) {
-        this.unFlip();
-        card.unFlip();
-      } else {
-        card.isActive = false;
-        this.isActive = false;
-      }
-    }, 1000);
+    const promise = new Promise((resolve, reject) => {
+      window.setTimeout(() => {
+        let isPair = false;
+        if (this.image !== card.image) {
+          this.unFlip();
+          card.unFlip();
+          console.log('не совпало');
+        } else {
+          card.isActive = false;
+          this.isActive = false;
+          isPair = true;
+          console.log('совпало');
+        }
+        resolve(isPair);
+      }, 1000);
+    });
+    return promise;
   }
 
   flip() {

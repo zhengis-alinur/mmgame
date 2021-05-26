@@ -4,10 +4,11 @@ import { Game } from './components/game/game';
 import { ImageCategory } from './models/image-category-model';
 
 export class App {
-  private readonly game: Game;
+  public readonly game: Game;
 
   constructor(private readonly rootElement: HTMLElement) {
     this.game = new Game();
+    this.rootElement.innerHTML = '';
     this.rootElement.appendChild(this.game.element);
   }
 
