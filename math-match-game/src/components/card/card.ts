@@ -21,12 +21,10 @@ export class Card extends BaseComponent {
         if (this.image !== card.image) {
           this.unFlip();
           card.unFlip();
-          console.log('не совпало');
         } else {
           card.isActive = false;
           this.isActive = false;
           isPair = true;
-          console.log('совпало');
         }
         resolve(isPair);
       }, 1000);

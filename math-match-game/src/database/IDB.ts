@@ -13,7 +13,6 @@ export class IDB {
       const db = this.request.result;
     };
     this.request.onerror = (e) => {
-      alert('Error!');
     };
   }
 

@@ -1,5 +1,4 @@
 /* eslint-disable linebreak-style */
-import { CardsField } from './components/cards-field/cards-field';
 import { Game } from './components/game/game';
 import { ImageCategory } from './models/image-category-model';
 

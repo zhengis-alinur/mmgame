@@ -2,8 +2,6 @@ import { BaseComponent } from '../base-component';
 import { CardsField } from '../cards-field/cards-field';
 import { Card } from '../card/card';
 
-const FLIP_DELAY = 1000;
-
 export class Game extends BaseComponent {
   private readonly cardsField: CardsField;
 
@@ -53,9 +51,7 @@ export class Game extends BaseComponent {
         this.pairCounter++;
       }
     });
-    console.log(this.pairCounter);
     if (this.pairCounter === this.cards.length / 2 - 1) {
-      const event = document.createEvent('Event');
       const app = document.querySelector('.app');
       if (app) {
         app.innerHTML = 'Congratulations! You have found all pairs!';

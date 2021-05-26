@@ -1,9 +1,6 @@
 import './header.scss';
 import { BaseComponent } from '../base-component';
 import { NavItem } from './nav-item';
-import { About } from '../about/about';
-import { Score } from '../score/score';
-import { Settings } from '../settings/settings';
 
 function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
   const elem = document.createElement(tag);
