@@ -13,7 +13,7 @@ export class Game extends BaseComponent {
 
   public cards: Card[] = [];
 
-  private pairCounter: number = 0;
+  private pairCounter = 0;
 
   constructor() {
     super('div', ['game']);
