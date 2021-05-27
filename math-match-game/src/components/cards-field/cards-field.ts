@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import './cards-field.scss';
 import { Card } from '../card/card';
 import { BaseComponent } from '../base-component';

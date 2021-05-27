@@ -9,6 +9,7 @@ import { RegisterPopUp } from './components/registerPopUp/registerPopUp';
 import { IDB } from './database/IDB';
 
 let isRegistered = false;
+let currentPlayer?: Player;
 
 // function, which gets two params 1st - tag name, 2nd - class name, and returns HTML element.
 function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
@@ -32,6 +33,8 @@ const app = createElem('div', 'app');
 const aboutPage = new About();
 const settingsPage = new Settings();
 const scorePage = new Score();
+let cardType = 'animals';
+let difficulty = '4';
 app.appendChild(aboutPage.element);
 window.history.pushState({}, 'about', '#/about/');
 
@@ -128,14 +131,53 @@ registerPopUp.addUserBtn.addEventListener('click', () => {
   isRegistered = true;
 });
 
-// start game
+// start game. timeDisplay - is html elem to display time
+const timeDisplay = document.body.appendChild(document.createTextNode(''));
+let time = 0;
+let a: NodeJS.Timeout;
+// add Eventlistener to Start Butto
 header.startBtn.addEventListener('click', () => {
-  const cardType = (<HTMLInputElement>document.getElementById('select-card')).value;
-  const difficulty = (<HTMLInputElement>document.getElementById('select-difficulty')).value;
+  // click on Start button start stopWatch or reset it, if stopWatch is undefined
+  if (a) {
+    time = 0;
+    clearInterval(a);
+    timeDisplay.textContent = '0';
+  }
+  // if start button is clicked in Settings page, where we have access to CardType, Difficulty selects,
+  // document.getElementById('select-card') and document.getElementById('select-difficulty') returns HTMLElements,
+  // else if Start Button clicked not in Settings page we initially get default values of game Settings, or if
+  // settings button clicks not first time, it gets previous values of settings for game.
+  // (<HTMLInputElement>document.getElementById('select-card')).value returns animal/it-companies
+  // (<HTMLInputElement>document.getElementById('select-difficulty')).value returns 4/6/8  (4 - 4x4, 6 - 6x6 e.t.c)
+  if (<HTMLInputElement>document.getElementById('select-card')) {
+    cardType = (<HTMLInputElement>document.getElementById('select-card')).value;
+    difficulty = (<HTMLInputElement>document.getElementById('select-difficulty')).value;
+  }
   application = new App(app);
   application.start(cardType, difficulty);
   // add address into hash
   window.history.pushState({}, 'game', '#/game/');
+
+  // start timeDisplay, which renew text into timeDisplay every second
+  a = setInterval(() => {
+    time++;
+    timeDisplay.textContent = `${time.toString(10)} s`;
+  }, 1000);
+});
+
+// in Game class in cardHandler() function we dispatch CustomEvent('game-finish') if it is found all pairs.
+// here written a function for this Event.
+document.body.addEventListener('game-finish', () => {
+  // clear timeInterval, and reset time variable.
+  if (a) {
+    clearInterval(a);
+    timeDisplay.textContent = '0';
+  }
+
+  app.innerHTML = `Congratulations! You have found all pairs! in ${time} seconds`;
+  db.addRecord('', time);
+  time = 0;
+  // here will be a function which loads data(game-record for current User) into IndexedDB.
 });
 
 document.body.appendChild(header.element);

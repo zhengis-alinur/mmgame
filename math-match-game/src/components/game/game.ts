@@ -19,6 +19,7 @@ export class Game extends BaseComponent {
     this.element.appendChild(this.cardsField.element);
   }
 
+  // this function creates a gamefield according to the parameters.
   newGame(images: string[], difficulty: number) {
     this.cardsField.clear();
     const cellDimension = 100 / difficulty;
@@ -35,6 +36,10 @@ export class Game extends BaseComponent {
       }
       default: break;
     }
+    // concat - duplicates cards
+    // map - create card according to image
+    // sort - shuffle cards
+    // them add listeners of click to all cards in cards-field
     this.cards = images
       .concat(images)
       .map((url) => new Card(url))
@@ -48,6 +53,12 @@ export class Game extends BaseComponent {
     this.cardsField.clear();
   }
 
+  // Check if Card is Active(card can be clicked only if it is active). Card may be inActive,
+  // if is time of checking two choosen cards
+  // isAnimation is made for making this function atomic
+  // ActiveCard - is a card which is choosen first
+  // so if there is no active card after choosing one, we make that card active
+  // if this.activeCards is not equal to the secondly choosen card, we just unflip() them, and make them active.
   private async cardHandler(card: Card) {
     if (!card.isActive) return;
     if (this.isAnimation) return;
@@ -60,17 +71,23 @@ export class Game extends BaseComponent {
     this.cards.forEach((c) => {
       c.isActive = false;
     });
+
+    // check() returns Promise
     card.check(this.activeCard).then((value) => {
       if (value) {
         this.pairCounter++;
       }
     });
+
+    // check if player found all pairs. If it is, dispatch event that says that it is finish of game
     if (this.pairCounter === this.cards.length / 2 - 1) {
-      const app = document.querySelector('.app');
-      if (app) {
-        app.innerHTML = 'Congratulations! You have found all pairs!';
-      }
+      const gameFinishEvent = new CustomEvent('game-finish', {
+        bubbles: true,
+      });
+      this.element.dispatchEvent(gameFinishEvent);
     }
+
+    // activate all cards after checking pair
     setTimeout(() => {
       this.cards.forEach((c) => {
         c.isActive = true;

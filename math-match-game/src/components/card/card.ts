@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import './card.scss';
 import { BaseComponent } from '../base-component';
 
@@ -14,6 +13,7 @@ export class Card extends BaseComponent {
     this.element.innerHTML = `<div class="card"><div class="card__front"></div><div class="card__back" style="background-image: url('./images/${image}')"></div></div>`;
   }
 
+  // checks if the given card and this card are have the same image. If it is returns a promise with flag(isPair).
   check(card: Card) {
     const promise = new Promise((resolve, reject) => {
       window.setTimeout(() => {
@@ -32,11 +32,13 @@ export class Card extends BaseComponent {
     return promise;
   }
 
+  // flip this card
   flip() {
     this.element.classList.add(FLIP_CLASS);
     this.isFlipped = true;
   }
 
+  // unflip this card
   unFlip() {
     this.element.classList.remove(FLIP_CLASS);
     this.isFlipped = false;

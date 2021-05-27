@@ -40,13 +40,10 @@ export class Header extends BaseComponent {
   createCenter() {
     this.center = createElem('div', 'nav-menu');
     this.aboutBtn.element.classList.add('about');
-    // this.aboutBtn.element.setAttribute('href', '#/about/');
 
     this.scoreBtn.element.classList.add('score');
-    // this.scoreBtn.element.setAttribute('href', '#/score/');
 
     this.settingsBtn.element.classList.add('settings');
-    // this.settingsBtn.element.setAttribute('href', '#/settings/');
 
     this.center.appendChild(this.aboutBtn.element);
     this.center.appendChild(this.scoreBtn.element);

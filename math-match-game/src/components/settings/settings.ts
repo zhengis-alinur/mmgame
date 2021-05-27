@@ -31,14 +31,11 @@ export class Settings extends BaseComponent {
         <option value="8">8x8</option>
       </select>
     `;
-    const button = createElem('button', 'button');
-    button.innerHTML = 'button';
 
     this.form.appendChild(this.cardSelect);
     this.form.appendChild(this.difficultySelect);
     // this.form.appendChild(selectContainer.appendChild(this.cardSelect));
     // this.form.appendChild(selectContainer.appendChild(this.difficultySelect));
     this.element.appendChild(this.form);
-    this.element.appendChild(button);
   }
 }

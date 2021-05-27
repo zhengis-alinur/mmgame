@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 export class BaseComponent {
   readonly element: HTMLElement;
 

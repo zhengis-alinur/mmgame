@@ -3,6 +3,7 @@ export class IDB {
 
   public db?: IDBDatabase;
 
+  // create IndexedDB and two sheets: players, scores. Implement all needed functions of IndexedDB
   constructor() {
     this.request.onupgradeneeded = (event) => {
       this.db = this.request.result;
@@ -16,6 +17,7 @@ export class IDB {
     };
   }
 
+  // this function adds player into players sheet
   addPlayer(name: string, surname: string, email: string) {
     const player = {
       email: `${email}`,
@@ -27,6 +29,7 @@ export class IDB {
     playersSheet.add(player);
   }
 
+  // this function adds record into scores sheet
   addRecord(email: string, time: number) {
     const record = {
       email: `${email}`,
