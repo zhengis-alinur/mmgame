@@ -3,7 +3,6 @@ import './cards-field.scss';
 import { Card } from '../card/card';
 import { BaseComponent } from '../base-component';
 
-
 export class CardsField extends BaseComponent {
   private cards: Card[] = [];
 

@@ -8,6 +8,8 @@ import { NavItem } from './components/header/nav-item';
 import { RegisterPopUp } from './components/registerPopUp/registerPopUp';
 import { IDB } from './database/IDB';
 
+let isRegistered = false;
+
 // function, which gets two params 1st - tag name, 2nd - class name, and returns HTML element.
 function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
   const elem = document.createElement(tag);
@@ -56,6 +58,9 @@ header.settingsBtn.element.addEventListener('click', () => {
   if (header.settingsBtn.isActive) {
     window.history.pushState({}, 'settings', '#/settings/');
     changeAppContent(app, settingsPage.element, header.settingsBtn);
+    if (isRegistered) {
+      header.right.appendChild(header.startBtn);
+    }
   }
 });
 
@@ -73,6 +78,9 @@ window.addEventListener('hashchange', () => {
     }
     case '#/settings/': {
       changeAppContent(app, settingsPage.element, header.settingsBtn);
+      if (isRegistered) {
+        header.right.appendChild(header.startBtn);
+      }
       break;
     }
     default: break;
@@ -114,14 +122,18 @@ registerPopUp.addUserBtn.addEventListener('click', () => {
 
   // add start button
   header.right.innerHTML = '';
-  header.right.appendChild(header.startBtn);
+  if (window.location.hash === '#/settings/') {
+    header.right.appendChild(header.startBtn);
+  }
+  isRegistered = true;
 });
 
 // start game
 header.startBtn.addEventListener('click', () => {
+  const cardType = (<HTMLInputElement>document.getElementById('select-card')).value;
+  const difficulty = (<HTMLInputElement>document.getElementById('select-difficulty')).value;
   application = new App(app);
-  application.start();
-
+  application.start(cardType, difficulty);
   // add address into hash
   window.history.pushState({}, 'game', '#/game/');
 });

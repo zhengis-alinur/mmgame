@@ -26,9 +26,9 @@ export class Settings extends BaseComponent {
     this.difficultySelect.innerHTML = `
       <p>Select difficulty</p>
       <select name="select-difficulty" id="select-difficulty" class="select-difficulty">
-        <option value="easy">4x4</option>
-        <option value="medium">6x6</option>
-        <option value="hard">8x8</option>
+        <option value="4">4x4</option>
+        <option value="6">6x6</option>
+        <option value="8">8x8</option>
       </select>
     `;
     const button = createElem('button', 'button');

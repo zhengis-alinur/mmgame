@@ -19,8 +19,22 @@ export class Game extends BaseComponent {
     this.element.appendChild(this.cardsField.element);
   }
 
-  newGame(images: string[]) {
+  newGame(images: string[], difficulty: number) {
     this.cardsField.clear();
+    const cellDimension = 100 / difficulty;
+    switch (difficulty) {
+      case 6: {
+        this.cardsField.element.style.gridTemplateColumns = `${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}%`;
+        this.cardsField.element.style.gridTemplateRows = `${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}%`;
+        break;
+      }
+      case 8: {
+        this.cardsField.element.style.gridTemplateColumns = `${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}%`;
+        this.cardsField.element.style.gridTemplateRows = `${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}% ${cellDimension}%`;
+        break;
+      }
+      default: break;
+    }
     this.cards = images
       .concat(images)
       .map((url) => new Card(url))

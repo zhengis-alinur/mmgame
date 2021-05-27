@@ -11,11 +11,13 @@ export class App {
     this.rootElement.appendChild(this.game.element);
   }
 
-  async start() {
+  async start(cardType: string, difficulty: string) {
     const res = await fetch('./images.json');
     const categories: ImageCategory[] = await res.json();
-    const cat = categories[0];
-    const images = cat.images.map((name: string) => `${cat.category}/${name}`);
-    this.game.newGame(images);
+    const difficultyInt = parseInt(difficulty, 10);
+    const { 0: cat } = categories;
+    let images = cat.images.map((name: string) => `${cat.category}/${name}`);
+    images = images.slice(0, (difficultyInt * difficultyInt) / 2);
+    this.game.newGame(images, difficultyInt);
   }
 }
