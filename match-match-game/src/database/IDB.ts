@@ -3,7 +3,7 @@ import { createElem } from '../shared/createElem';
 import { Player } from './player';
 
 export class IDB {
-  private request: IDBOpenDBRequest = indexedDB.open('match-match-game');
+  private request: IDBOpenDBRequest = indexedDB.open('zhengis-alinur');
 
   public db?: IDBDatabase;
 

@@ -16,12 +16,11 @@ export class App {
     const categories: ImageCategory[] = await res.json();
     const difficultyInt = parseInt(difficulty, 10);
     let cat: ImageCategory;
+    const [cat1, cat2] = categories;
     if (cardType === 'animals') {
-      // eslint-disable-next-line prefer-destructuring
-      cat = categories[0];
+      cat = cat1;
     } else {
-      // eslint-disable-next-line prefer-destructuring
-      cat = categories[1];
+      cat = cat2;
     }
     let images = cat.images.map((name: string) => `${cardType}/${name}`);
     images = images.slice(0, (difficultyInt * difficultyInt) / 2);
