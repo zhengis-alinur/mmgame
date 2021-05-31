@@ -13,6 +13,10 @@ export class Game extends BaseComponent {
 
   private pairCounter = 0;
 
+  private matches = 0;
+
+  private unluckymatches = 0;
+
   constructor() {
     super('div', ['game']);
     this.cardsField = new CardsField();
@@ -53,6 +57,10 @@ export class Game extends BaseComponent {
     this.cardsField.clear();
   }
 
+  getMatchesScore() {
+    return (this.matches - this.unluckymatches) * 100;
+  }
+
   // Check if Card is Active(card can be clicked only if it is active). Card may be inActive,
   // if is time of checking two choosen cards
   // isAnimation is made for making this function atomic
@@ -68,6 +76,7 @@ export class Game extends BaseComponent {
       this.isAnimation = false;
       return;
     }
+    this.matches++;
     this.cards.forEach((c) => {
       c.isActive = false;
     });
@@ -76,6 +85,8 @@ export class Game extends BaseComponent {
     card.check(this.activeCard).then((value) => {
       if (value) {
         this.pairCounter++;
+      } else {
+        this.unluckymatches++;
       }
     });
 
@@ -86,13 +97,12 @@ export class Game extends BaseComponent {
       });
       this.element.dispatchEvent(gameFinishEvent);
     }
-
     // activate all cards after checking pair
     setTimeout(() => {
       this.cards.forEach((c) => {
         c.isActive = true;
       });
-    }, 1100);
+    }, 1010);
     this.activeCard = undefined;
     this.isAnimation = false;
   }

@@ -12,6 +12,7 @@ $height: 460px;
   background-color: #fff;
   left: calc(50% - #{$width}/2);
   top: calc(50% - #{$height}/2);
+  z-index: 15;
 }
 
 .title {

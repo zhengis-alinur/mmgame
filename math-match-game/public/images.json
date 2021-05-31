@@ -35,5 +35,42 @@
       "zebra.jpg",
       "kangoro.jpg"
     ]
+  },
+  {
+    "category": "it-companies",
+    "images": [
+      "abode.png",
+      "amazon.png",
+      "apple.png",
+      "download.png",
+      "fb.png",
+      "ibm.png",
+      "in.png",
+      "intel.png",
+      "jetbrains.png",
+      "kingston.png",
+      "microsoft.png",
+      "nvidia.png",
+      "oracle.png",
+      "sandick.png",
+      "sunMS.png",
+      "twitter.png",
+      "xerox.png",
+      "yahoo.png",
+      "yandex.png",
+      "amd.png",
+      "asus.png",
+      "ea.png",
+      "ebay.png",
+      "epam.png",
+      "fujitsu.png",
+      "kaspersky.png",
+      "motorola.png",
+      "paypal.png",
+      "qualcomm.png",
+      "sony.png",
+      "wd.png",
+      "webex.png"
+    ]
   }
 ]

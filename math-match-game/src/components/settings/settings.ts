@@ -1,10 +1,6 @@
+import './settings.scss';
+import { createElem } from '../../shared/createElem';
 import { BaseComponent } from '../base-component';
-
-function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
-  const elem = document.createElement(tag);
-  elem.classList.add(className);
-  return elem;
-}
 
 export class Settings extends BaseComponent {
   public form:HTMLElement = createElem('form', 'settings-form');
@@ -17,13 +13,15 @@ export class Settings extends BaseComponent {
     super('div', ['settings-section']);
 
     this.cardSelect.innerHTML = `
+      <div class="number"><span>1</span></div>
       <p>Select the type of cards</p>
       <select name="select-card" id="select-card" class="select-card">
         <option value="animals">Animals</option>
-        <option value="brands">Brands</option>
+        <option value="it-companies">Brands</option>
       </select>
     `;
     this.difficultySelect.innerHTML = `
+      <div class="number"><span>2</span></div>
       <p>Select difficulty</p>
       <select name="select-difficulty" id="select-difficulty" class="select-difficulty">
         <option value="4">4x4</option>

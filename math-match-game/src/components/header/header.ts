@@ -1,12 +1,7 @@
 import './header.scss';
 import { BaseComponent } from '../base-component';
 import { NavItem } from './nav-item';
-
-function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
-  const elem = document.createElement(tag);
-  elem.classList.add(className);
-  return elem;
-}
+import { createElem } from '../../shared/createElem';
 
 export class Header extends BaseComponent {
   private left?: HTMLElement;
@@ -15,9 +10,9 @@ export class Header extends BaseComponent {
 
   public aboutBtn: NavItem = new NavItem('About', 'about.svg');
 
-  public scoreBtn: NavItem = new NavItem('Best score', 'about.svg');
+  public scoreBtn: NavItem = new NavItem('Best score', 'bests.svg');
 
-  public settingsBtn: NavItem = new NavItem('Settings', 'about.svg');
+  public settingsBtn: NavItem = new NavItem('Settings', 'settings.svg');
 
   public registerBtn: HTMLElement = document.createElement('button');
 
@@ -40,6 +35,7 @@ export class Header extends BaseComponent {
   createCenter() {
     this.center = createElem('div', 'nav-menu');
     this.aboutBtn.element.classList.add('about');
+    this.aboutBtn.element.classList.add('__active');
 
     this.scoreBtn.element.classList.add('score');
 
@@ -59,5 +55,16 @@ export class Header extends BaseComponent {
     this.startBtn.classList.add('button');
     this.right.appendChild(this.registerBtn);
     this.element.appendChild(this.right);
+  }
+
+  setStyleNavItem(nav: NavItem) {
+    const btns = [this.aboutBtn, this.scoreBtn, this.settingsBtn];
+    btns.forEach((btn) => {
+      if (btn === nav) {
+        btn.element.classList.add('__active');
+      } else {
+        btn.element.classList.remove('__active');
+      }
+    });
   }
 }

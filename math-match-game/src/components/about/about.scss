@@ -1,27 +1,51 @@
 .about-section {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
+  .about-title {
+    position: relative;
+    display: inline-block;
+    left: 50px;
+    top: 10px;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 30px;
+    margin: 10px;
+  }
 }
 
 .step {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
+  padding: 10px 50px;
   .number {
-    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
     height: 40px;
     text-align: center;
+    font-size: 24px;
+    line-height: 21px;
+    color: #fff;
     background-color: #2196F3;
     border-radius: 50%;
     box-shadow: 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.5);
   }
   .step-explanation {
+    box-sizing: border-box;
     display: flex;
     background-color: #FFF;
     height: 200px;
     width: 360px;
+    padding: 30px;
+    p {
+      position: relative;
+      top: 5px;
+      left: 10px;
+    }
   }
 }

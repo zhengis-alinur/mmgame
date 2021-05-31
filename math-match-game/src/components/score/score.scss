@@ -1,0 +1,51 @@
+@import '../../UI/variables.scss';
+
+.score-section {
+  width: 90%;
+  margin: 0 auto;
+  padding: 40px;
+  overflow-y: scroll;
+}
+
+.player-info {
+  display: flex;
+  flex-direction: column;
+
+  p {
+    margin: 3px;
+  }
+
+  .name {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 500;
+  }
+
+  .email {
+    font-size: 12px;
+    line-height: 15px;
+    color: #333333;
+    
+  }
+}
+
+.player-score {
+  display: flex;
+  span {
+    font-size: 14px;
+    line-height: 24px;
+    &.score {
+      margin-left: 10px;
+      color: #{$primary};
+    }
+  }
+}
+
+.record-elem {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #fff;
+}

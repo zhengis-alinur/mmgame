@@ -1,4 +1,6 @@
+@import '../../UI/variables.scss';
 header {
+  position: relative;
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
@@ -9,16 +11,24 @@ header {
 }
 
 .nav-menu {
+  position: absolute;
+  left: 25%;
+  top: 0;
   display: flex;
   justify-content: space-between;
+  color: #fff;
+  
   .nav-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 64px;
     width: 150px;
     text-transform: uppercase;
+    &.__active{
+      background-color: #1E88E5;
+    }
   }
   .icon {
     height: 30px;
@@ -39,6 +49,7 @@ header {
   display: flex;
   align-items: center;
   height: 100%;
+  right: 0;
   .button {
     height: 30px;
   }

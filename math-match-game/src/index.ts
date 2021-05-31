@@ -7,17 +7,11 @@ import { Settings } from './components/settings/settings';
 import { NavItem } from './components/header/nav-item';
 import { RegisterPopUp } from './components/registerPopUp/registerPopUp';
 import { IDB } from './database/IDB';
+import { Player } from './database/player';
+import { createElem } from './shared/createElem';
 
 let isRegistered = false;
-let currentPlayer?: Player;
-
-// function, which gets two params 1st - tag name, 2nd - class name, and returns HTML element.
-function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
-  const elem = document.createElement(tag);
-  elem.classList.add(className);
-  return elem;
-}
-
+let currentPlayer: Player;
 // function, which changes the content of base html element with inner html element.
 // button is inactive if you are in that inner page already
 // For expample, if you are in About page, AboutButton is not active, so you cannot press it.
@@ -38,6 +32,46 @@ let difficulty = '4';
 app.appendChild(aboutPage.element);
 window.history.pushState({}, 'about', '#/about/');
 
+// start game. timeDisplay - is html elem to display time
+const timeDisplay = createElem('div', 'time-display');
+const minutesHolder = createElem('p', 'minutes');
+minutesHolder.innerHTML = '00';
+const ddot = createElem('p', 'ddot');
+ddot.innerHTML = ':';
+const secondsHolder = createElem('p', 'seconds');
+secondsHolder.innerHTML = '00';
+timeDisplay.append(minutesHolder);
+timeDisplay.append(ddot);
+timeDisplay.append(secondsHolder);
+
+// time renewer function
+function renewTime(gameTime: number) {
+  const seconds = gameTime % 60;
+  const minutes = Math.floor(gameTime / 60);
+  console.log(minutes, seconds);
+  if (seconds / 10 >= 1) {
+    secondsHolder.innerHTML = `${seconds}`;
+  } else {
+    secondsHolder.innerHTML = `0${seconds}`;
+  }
+  if (minutes / 10 >= 1) {
+    minutesHolder.innerHTML = `${minutes}`;
+  } else {
+    minutesHolder.innerHTML = `0${minutes}`;
+  }
+}
+
+let time = 0;
+let a: NodeJS.Timeout;
+
+function stopTimer() {
+  if (a) {
+    time = 0;
+    clearInterval(a);
+    renewTime(0);
+  }
+}
+
 // create IndexedDB
 const db = new IDB();
 
@@ -47,18 +81,25 @@ const header = new Header();
 // match pages to buttons in navigation menu
 header.aboutBtn.element.addEventListener('click', () => {
   if (header.aboutBtn.isActive) {
+    header.setStyleNavItem(header.aboutBtn);
+    stopTimer();
     window.history.pushState({}, 'about', '#/about/');
     changeAppContent(app, aboutPage.element, header.aboutBtn);
   }
 });
 header.scoreBtn.element.addEventListener('click', () => {
   if (header.scoreBtn.isActive) {
+    header.setStyleNavItem(header.scoreBtn);
+    stopTimer();
+    scorePage.recordHolder.innerHTML = '';
+    db.displayFirstN(scorePage, 10);
     window.history.pushState({}, 'score', '#/score/');
     changeAppContent(app, scorePage.element, header.scoreBtn);
   }
 });
 header.settingsBtn.element.addEventListener('click', () => {
   if (header.settingsBtn.isActive) {
+    header.setStyleNavItem(header.settingsBtn);
     window.history.pushState({}, 'settings', '#/settings/');
     changeAppContent(app, settingsPage.element, header.settingsBtn);
     if (isRegistered) {
@@ -72,14 +113,20 @@ window.addEventListener('hashchange', () => {
   const location = window.location.hash;
   switch (location) {
     case '#/about/': {
+      header.setStyleNavItem(header.aboutBtn);
+      stopTimer();
       changeAppContent(app, aboutPage.element, header.aboutBtn);
       break;
     }
     case '#/score/': {
+      header.setStyleNavItem(header.scoreBtn);
+      stopTimer();
+      db.getPlayers();
       changeAppContent(app, scorePage.element, header.scoreBtn);
       break;
     }
     case '#/settings/': {
+      header.setStyleNavItem(header.settingsBtn);
       changeAppContent(app, settingsPage.element, header.settingsBtn);
       if (isRegistered) {
         header.right.appendChild(header.startBtn);
@@ -117,7 +164,8 @@ registerPopUp.addUserBtn.addEventListener('click', () => {
   const email = (<HTMLInputElement>document.getElementById('email-input')).value;
 
   // add Player into IndexedDB
-  db.addPlayer(name, surname, email);
+  currentPlayer = new Player(name, surname, email);
+  db.addPlayer(currentPlayer);
 
   // hide registerPopUp Menu
   registerPopUp.element.style.display = 'none';
@@ -131,17 +179,13 @@ registerPopUp.addUserBtn.addEventListener('click', () => {
   isRegistered = true;
 });
 
-// start game. timeDisplay - is html elem to display time
-const timeDisplay = document.body.appendChild(document.createTextNode(''));
-let time = 0;
-let a: NodeJS.Timeout;
 // add Eventlistener to Start Butto
 header.startBtn.addEventListener('click', () => {
   // click on Start button start stopWatch or reset it, if stopWatch is undefined
   if (a) {
     time = 0;
     clearInterval(a);
-    timeDisplay.textContent = '0';
+    renewTime(0);
   }
   // if start button is clicked in Settings page, where we have access to CardType, Difficulty selects,
   // document.getElementById('select-card') and document.getElementById('select-difficulty') returns HTMLElements,
@@ -161,9 +205,23 @@ header.startBtn.addEventListener('click', () => {
   // start timeDisplay, which renew text into timeDisplay every second
   a = setInterval(() => {
     time++;
-    timeDisplay.textContent = `${time.toString(10)} s`;
+    renewTime(time);
   }, 1000);
+
+  document.body.append(timeDisplay);
 });
+
+function congratulations(score: number) {
+  const congratTextHolder = createElem('div', 'congrat-text-holder');
+  const congratText = createElem('p', 'congrat-text');
+  congratText.innerHTML = 'Congratulations! You have found all pairs and get';
+  const scoreText = createElem('p', 'score-text');
+  scoreText.innerHTML = `${score} points`;
+  app.innerHTML = '';
+  congratTextHolder.append(congratText);
+  congratTextHolder.append(scoreText);
+  app.append(congratTextHolder);
+}
 
 // in Game class in cardHandler() function we dispatch CustomEvent('game-finish') if it is found all pairs.
 // here written a function for this Event.
@@ -171,13 +229,13 @@ document.body.addEventListener('game-finish', () => {
   // clear timeInterval, and reset time variable.
   if (a) {
     clearInterval(a);
-    timeDisplay.textContent = '0';
+    renewTime(0);
   }
-
-  app.innerHTML = `Congratulations! You have found all pairs! in ${time} seconds`;
-  db.addRecord('', time);
+  document.body.removeChild(timeDisplay);
+  const score = application.game.getMatchesScore() - time * 10;
+  congratulations(score);
+  db.renewScore(currentPlayer, score);
   time = 0;
-  // here will be a function which loads data(game-record for current User) into IndexedDB.
 });
 
 document.body.appendChild(header.element);

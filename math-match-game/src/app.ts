@@ -15,9 +15,15 @@ export class App {
     const res = await fetch('./images.json');
     const categories: ImageCategory[] = await res.json();
     const difficultyInt = parseInt(difficulty, 10);
-    // I put here just one category, because I have not load all images for the other category
-    const { 0: cat } = categories;
-    let images = cat.images.map((name: string) => `${cat.category}/${name}`);
+    let cat: ImageCategory;
+    if (cardType === 'animals') {
+      // eslint-disable-next-line prefer-destructuring
+      cat = categories[0];
+    } else {
+      // eslint-disable-next-line prefer-destructuring
+      cat = categories[1];
+    }
+    let images = cat.images.map((name: string) => `${cardType}/${name}`);
     images = images.slice(0, (difficultyInt * difficultyInt) / 2);
     this.game.newGame(images, difficultyInt);
   }

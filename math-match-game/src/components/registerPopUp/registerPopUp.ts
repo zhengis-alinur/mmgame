@@ -1,11 +1,6 @@
+import { createElem } from '../../shared/createElem';
 import { BaseComponent } from '../base-component';
 import './registerPopUp.scss';
-
-function createElem(tag: keyof HTMLElementTagNameMap, className: string) {
-  const elem = document.createElement(tag);
-  elem.classList.add(className);
-  return elem;
-}
 
 export class RegisterPopUp extends BaseComponent {
   private form: HTMLElement = createElem('form', 'register-form');
