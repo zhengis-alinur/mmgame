@@ -32,19 +32,21 @@ export class RegisterPopUp extends BaseComponent {
     // form
     this.nameInput.innerHTML = `
     <label for="name">First Name</label>
-    <input id="name-input" name="name" type="text" required>
+    <input id="name-input" name="name" type="text" pattern="^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$" required>
     `;
     this.surnameInput.innerHTML = `
     <label for="sername">Last Name</label>
-    <input id="surname-input" name="surname" type="text" required>
+    <input id="surname-input" name="surname" type="text" pattern="^([А-Я]{1}[а-яё]{1,23}|[A-Z]{1}[a-z]{1,23})$" required>
     `;
+    const emailRegex = `^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$`;
     this.emailInput.innerHTML = `
     <label for="email">E-mail</label>
-    <input id="email-input" name="email" type="email" required>
+    <input id="email-input" name="email" type="email" pattern="${emailRegex}" required>
     `;
 
     // buttons
     this.addUserBtn.innerHTML = 'add user';
+    this.addUserBtn.setAttribute('type', 'submit');
     this.cancelBtn.innerHTML = 'cancel';
     const buttonsContainer = createElem('div', 'buttons-container');
     buttonsContainer.appendChild(this.addUserBtn);
@@ -53,7 +55,7 @@ export class RegisterPopUp extends BaseComponent {
     this.form.appendChild(this.nameInput);
     this.form.appendChild(this.surnameInput);
     this.form.appendChild(this.emailInput);
+    this.form.appendChild(buttonsContainer);
     this.element.appendChild(this.form);
-    this.element.appendChild(buttonsContainer);
   }
 }

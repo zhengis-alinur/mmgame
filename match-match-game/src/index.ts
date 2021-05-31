@@ -62,12 +62,12 @@ function renewTime(gameTime: number) {
 }
 
 let time = 0;
-let a: NodeJS.Timeout;
+let stopWatch: NodeJS.Timeout;
 
 function stopTimer() {
-  if (a) {
+  if (stopWatch) {
     time = 0;
-    clearInterval(a);
+    clearInterval(stopWatch);
     renewTime(0);
   }
 }
@@ -113,6 +113,7 @@ window.addEventListener('hashchange', () => {
   const location = window.location.hash;
   switch (location) {
     case '#/about/': {
+      // make darker bgcolor of button in navMenu, if we in that page
       header.setStyleNavItem(header.aboutBtn);
       stopTimer();
       changeAppContent(app, aboutPage.element, header.aboutBtn);
@@ -157,36 +158,35 @@ registerPopUp.cancelBtn.addEventListener('click', () => {
   registerPopUp.element.style.display = 'none';
   cover.style.display = 'none';
 });
+
 registerPopUp.addUserBtn.addEventListener('click', () => {
   // get values from form
-  const name = (<HTMLInputElement>document.getElementById('name-input')).value;
-  const surname = (<HTMLInputElement>document.getElementById('surname-input')).value;
-  const email = (<HTMLInputElement>document.getElementById('email-input')).value;
+  const nameInput = (<HTMLInputElement>document.getElementById('name-input'));
+  const surnameInput = (<HTMLInputElement>document.getElementById('surname-input'));
+  const emailInput = (<HTMLInputElement>document.getElementById('email-input'));
 
-  // add Player into IndexedDB
-  currentPlayer = new Player(name, surname, email);
-  db.addPlayer(currentPlayer);
+  if (nameInput.validity.valid && surnameInput.validity.valid && emailInput.validity.valid) {
+    // add Player into IndexedDB
+    currentPlayer = new Player(nameInput.value, surnameInput.value, emailInput.value);
+    db.addPlayer(currentPlayer);
 
-  // hide registerPopUp Menu
-  registerPopUp.element.style.display = 'none';
-  cover.style.display = 'none';
+    // hide registerPopUp Menu
+    registerPopUp.element.style.display = 'none';
+    cover.style.display = 'none';
 
-  // add start button
-  header.right.innerHTML = '';
-  if (window.location.hash === '#/settings/') {
-    header.right.appendChild(header.startBtn);
+    // add start button
+    header.right.innerHTML = '';
+    if (window.location.hash === '#/settings/') {
+      header.right.appendChild(header.startBtn);
+    }
+    isRegistered = true;
   }
-  isRegistered = true;
 });
 
 // add Eventlistener to Start Butto
 header.startBtn.addEventListener('click', () => {
   // click on Start button start stopWatch or reset it, if stopWatch is undefined
-  if (a) {
-    time = 0;
-    clearInterval(a);
-    renewTime(0);
-  }
+  stopTimer();
   // if start button is clicked in Settings page, where we have access to CardType, Difficulty selects,
   // document.getElementById('select-card') and document.getElementById('select-difficulty') returns HTMLElements,
   // else if Start Button clicked not in Settings page we initially get default values of game Settings, or if
@@ -203,7 +203,7 @@ header.startBtn.addEventListener('click', () => {
   window.history.pushState({}, 'game', '#/game/');
 
   // start timeDisplay, which renew text into timeDisplay every second
-  a = setInterval(() => {
+  stopWatch = setInterval(() => {
     time++;
     renewTime(time);
   }, 1000);
@@ -227,15 +227,11 @@ function congratulations(score: number) {
 // here written a function for this Event.
 document.body.addEventListener('game-finish', () => {
   // clear timeInterval, and reset time variable.
-  if (a) {
-    clearInterval(a);
-    renewTime(0);
-  }
   document.body.removeChild(timeDisplay);
   const score = application.game.getMatchesScore() - time * 10;
+  stopTimer();
   congratulations(score);
   db.renewScore(currentPlayer, score);
-  time = 0;
 });
 
 document.body.appendChild(header.element);

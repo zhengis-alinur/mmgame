@@ -10,35 +10,24 @@ export class About extends BaseComponent {
 
   createParts() {
     const steps = createElem('div', 'steps');
-    steps.innerHTML = `
-    <p class="about-title">How to play?</p>
-    <div class="step">
-      <div class="step-explanation">
-        <div class="number"><span>1</span></div>
-        <p>Register new player</p>
-      </div>
-      <div class="step-illustration">
-        <img src="./illustrations/image 1.png" alt="">
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-explanation">
-        <div class="number"><span>2</span></div>
-        <p>Configure your game settings</p>
-      </div>
-      <div class="step-illustration">
-        <img src="./illustrations/image 2.png" alt="">
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-explanation">
-        <div class="number"><span>3</span></div>
-        <p>Start you new game! Remember card positions and match it before times up.</p>
-      </div>
-      <div class="step-illustration">
-        <img src="./illustrations/image 3.png" alt="">
-      </div>
-    </div>`;
+
+    const stepsText = ['Register new player', 'Configure your game settings', 'Start you new game! Remember card positions and match it before times up.'];
+
+    stepsText.forEach((val, index) => {
+      const step = createElem('div', 'step');
+      const stepExplanation = createElem('div', 'step-explanation');
+      stepExplanation.innerHTML = `
+        <div class="number"><span>${index + 1}</span></div>
+        <p>${val}</p>
+      `;
+      const stepIllustration = createElem('div', 'step-illustration');
+      const img = createElem('img', 'img');
+      img.setAttribute('src', `./illustrations/image${index + 1}.png`);
+      stepIllustration.append(img);
+      step.append(stepExplanation);
+      step.append(stepIllustration);
+      steps.append(step);
+    });
     this.element.appendChild(steps);
   }
 }
